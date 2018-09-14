@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <!--Construction for Heaven's Tastes-->
+		<title> Arrays </title>
+		<link rel="stylesheet" href="../dsa.css" charset="utf-8"/>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:bold">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:light">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sacramento">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+		<link href="css/logoiconfont.css" rel="stylesheet">
+		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+	</head>
+	<body onload="onload();" data-spy="scroll" data-target=".navbar" data-offset="50">
+		
+		<div id="loader"></div>
+		<div style="display:none;" id="myDiv" class="animate-bottom">
+			<div>
+		<header>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" id="gca" href="http://ggalix.com">GIAN CARLO ALIX</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <!--<li class="active"><a href="#">Home</a></li>-->
+            <!--<li><a href="dsa.html">Home</a></li>-->
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../dsa.html">Home</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Data Structures <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="arrays.html">Arrays</a></li>
+                <li><a href="stacks.html">Stacks</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Algorithms <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="../algorithms/loopInvariants.html">Loop Invariants</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Foundational Concepts <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="../foundational/recursion.html">Recursion</a></li>
+              </ul>
+            </li>
+            <!--<li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>-->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    </header>
+
+  <section id="stacks" class="background1 section-padding">
+    <div class="container">
+      <h2 id="colorChangeRed">Arrays</h2>
+      <hr align="left" width="400px" class="hrContact">
+
+      <i> Please again read carefully what is stated in this <a href="../disclaimer.html" target="_blank">disclaimer</a> before continuing on with your reading.</i>
+
+      <br><br>
+
+      <div class="imgCenter">
+      <img src="../imgs/arrIntro.png" height="45%" width="45%">
+    </div>
+
+      <br>
+
+      <ul>
+            <li><a href="#basics">Basics of Arrays</a></li>
+            <li><a href="#pointers">Arrays as Pointers</a></li>
+            <li><a href="#limitations">Performance and Limitations</a></li>
+            <li><a href="#ex">Exercises</a></li>
+          </ul>
+
+<br>
+
+  </div>
+  </section>
+
+  <section id="basics" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Basics of Arrays</h4>
+      <hr align="left" width="400px" class="hrContact">
+
+        An <b>array</b> (in general) is a linear structure that has a fixed size at the time of construction. The elements are placed contiguously in memory, meaning that it is near in memory but does not necessarily touch the memory. Inspection and update of some element in the array takes only \(O(1)\) constant time. More about the performance of array operations can be found <a href="#limitations">here</a>.
+
+      <br><br>
+
+        In Java, arrays are homogeneous. The components (or the elements of the array) must be all of the same type. And <code>Object[]</code> arrays can contain <code>Objects</code> of any subtype. Hence saying <code>Object[] stuffs = {6, "ball", true, 'q', p}</code> is valid (where <code>Point p = new Point(2, 3)</code> has already been declared before the creation of the array. 
+
+      <br><br>
+
+        Also in Java, we say that an array is an <code>Object</code>. Hence, we allocate dynamically by the keyword <code>new</code>. And this is why we have been creating and declaring and initializing arrays this way: <code>int[] nums = new int[10];</code>.
+
+      <br><br>
+
+      The initial values of an array in Java depends on the type of elements it carries. For instance, an <code>int[]</code> array holds all <code>0</code> values initially (and of course <code>0.0</code> for the <code>double[]</code> type). If the array was supposed to <code>boolean[]</code> values, then the initial values would all have been <code>false</code>. And for <code>Object[]</code> arrays, then the initial values have to be <code>null</code>.
+
+      <br><br>
+
+      We can access the value of the elements within the array through their indices. If an array \(A\) has \(n\) elements, then the range of what we can access in \(A\) is from \(A[0...n-1]\). And this we can do by \(A[0], A[1], ..., A[n-1]\). In order to determine how many elements the array \(A\) has, simply type up <code>A.length</code>, and it should return to you \(n\).
+
+      <br><br>
+
+      <b><u><i>Common Mistakes in using Arrays</i></u></b>
+      <ul>
+        <li>Getting the size of an array uses the <code>.length</code> instance (or attribute). It is not a method.<br>
+<pre>char[] A = {'a', 'b', 'c', 'd'};
+for (int i = 0; i < A.length(); i++) {   <i>// wrong, it should be A.length</i>
+  <i>// do something here</i>
+}</pre>
+        </li>
+        <li>The array is unallocated. The Java code below is incorrect because we have created an array and yet we have not allocated how many elements the array will have. Hence the program does not know how much memory to allocate for the array.<br>
+<pre>int[] numbers;
+numbers[0] = 15;                        <i>// wrong, unallocated array</i></pre>
+        </li>
+        <li>Attempting to access an index that is out of bounds. Note that if we have an array \(A\) where <code>A.length = n</code>, then we can only access elements from the range \(A[0...n-1]\). Attempting to access a negative index or an index larger than \(n-1\) gives an <samp><b>ArrayIndexOutOfBoundsException</b></samp>.<br>
+<pre>int[] nums = {10, 20, 30, 40, 50};
+nums[5] = 60;                           <i>// wrong, you can only access nums[0...4]</i>
+System.out.println(nums[-1])            <i>// wrong, negative index does not exist</i></pre>
+        </li>
+      </ul>
+
+      <b><u>Note</u></b>: These mistakes are more of runtime and syntactic that produces exceptions. There are still more mistakes (the logical ones) that will be discussed further in the next sections to come.
+
+      <br><br>
+
+      <b><u><i>2D Arrays in Java</i></u></b> <br>
+      They are usually called a <b><i>matrix</i></b> or a <b><i>grid</i></b> and can be implemented as 2D arrays. This means that 2D arrays are simply arrays made up of arrays. (Note that the size, specified by <b>dimensions</b>, of a 2D array is known to be by <i>row</i> and by <i>column</i>. For instance, we wish to declare a 2D array that has 3 rows and 4 columns. Then this means that our "main" array will have a length of 3 and each element in this "main" array contains another array of length 4 this time. Below shows a code of two ways to implement such.
+
+      <br><br>
+
+<pre><b>class</b> MatrixImplemeneter {
+  <b>public static void</b> main (String[] args) {
+    <b>int</b> rows = 3;
+    <b>int</b> columns = 4;
+
+      <i>// first way: one line direct way</i>
+    <b>int</b>[][] nums1 = <b>new</b> <b>int</b>[rows][columns];
+
+      <i>// second way: using a loop</i>
+    <b>int</b>[][] nums2 = <b>new</b> int[rows][];
+    <b>for</b> (<b>int</b> i = 0; i < rows; i++) 
+      nums2[i] = <b>new int</b>[columns];
+  }
+}</pre>
+
+<br>
+
+<b><u><i>The Utility Library for Arrays</i></u></b> <br>
+
+The <code>java.util.Arrays</code> class in Java has useful in built-in methods:
+  <ol>
+    <li><code>equals(A,B)</code> - returns <samp>true</samp> if \(A\) and \(B\) have an equal number of elements and every corresponding pair of elements in the two arrays are equal</li>
+    <li><code>fill(A,x)</code> - store \(x\) into every cell of \(A\)</li>
+    <li><code>sort(A)</code></li>
+    <li><code>binarySearch(int[] A, int key)</code> - uses the binary search algorithm to find <code>key</code>'s index location in \(A\) and returns <samp>-1</samp> if \(key \notin A\); assumes that \(A\) is sorted as a precondition</li>
+  </ol>
+
+  </div>
+  </section>
+
+  <section id="pointers" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Arrays as Pointers</h4>
+      <hr align="left" width="400px" class="hrContact">
+        The name of the array is a <b><i>reference</i></b> (also called <u>pointer</u>) to the place in memory where the array is stored. The reference to an object holds the <b>address</b>  of the actual object. Here is an example to illustrate: suppose you have some array \(A = [15, 29, 47, 63, 98, 84, 31, 65, 80, 11]\). And you decided to <b>copy</b> this array to array \(B[]\). 
+
+        <br><br>
+<p>
+<img src="../imgs/arrCopy1.png" width="40%" style="float: right; padding-left: 10px">
+<pre>int[] A = {15, 29, 47, 63, 98, 84, 31, 65, 80, 11};
+int[] B = A;</pre>
+<br>
+</p>
+The code above shows the <i>array copy</i> of \(A\) to \(B\) and the above picture shows the image visual of what is happening in <i>array copy</i>. Notice how \(A\) points to the array (as we know that array is an <code>Object</code> and acts as a pointer reference). But then also, notice how \(B\) also points to the same array as \(A\). So we know from here that the <i>array copy</i> not only copies the elements (and their respective corresponding positions) from \(A\) to \(B\) but also their memory addresses. Let us verify this by changing one of the elements of \(B\) and we will see that the change also takes in effect in \(A\). Without loss of generality, we can do the same when we change one of the elements in \(A\) and see the change reflected upon \(B\) as well.
+<br><br>
+<p>
+<img src="../imgs/arrCopy2.png" width="40%" style="float: right; padding-left: 10px">
+<pre>B[3] = 20;
+System.out.println(A[3]);     <i>// prints 20</i>
+System.out.println(B[3]);     <i>// prints 20</i></pre>
+</p>
+    <br>
+
+    <b><i>Array cloning</i></b> on the other hand is slightly similar to <i>array copying</i>. The only difference is that upon cloning, the new array that was created from the clone receives a new memory location different from the array that was cloned. To illustrate what I mean, see the code below and its corresponding visual image that depicts the code.
+
+    <br><br>
+
+    <p>
+<img src="../imgs/arrClone1.png" width="40%" style="float: right; padding-left: 10px">
+<pre>int[] A = {15, 29, 47, 63, 98, 84, 31, 65, 80, 11};
+int[] B = A.clone();          <i>// the array clone method</i></pre>
+<br>
+</p>
+
+    So here, we see that a new instance of an array was created. As a result, upon updating the element in \(B[3]\), this leaves the element \(A[3]\) untouched -  compared to the <i>array copy</i> version that changes \(A[3]\) as well. Below shows the update code and the corresponding image.
+
+<br><br>
+
+ <p>
+<img src="../imgs/arrClone2.png" width="40%" style="float: right; padding-left: 10px">
+<pre>B[3] = 20;
+System.out.println(A[3]);     <i>// still should print 63</i>
+System.out.println(B[3]);     <i>// now prints 20</i></pre>
+<br>
+</p> 
+
+    <br>
+    </div>
+  </section>
+
+  <section id="limitations" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Performance and Limitations</h4>
+      <hr align="left" width="400px" class="hrContact">
+
+      As mentioned earlier, the access and update (of a single element) methods for arrays is constant time \(O(1)\). But what about the other methods? Take for instance insertion. Insertion into an array, regardless of whether or not it is full takes linear \(O(n)\) time. Remember that by instantiating an array, regardless of what type is it, initial values have already been given into every cell of the array. So technically, we can say that the array is "already full". And by inserting an element into an array, we are adding an element into the array. This entails re-creating another array that has length 1 more than the length of the original array, and depending on where you wish to add the element (either at the beginning, end or middle), \(O(n)\) time is still needed as elements get transferted from the original to the new array. Deletion works the same way, removing an element from the array, entails checking first if the element is in the array (the library may have a built-in method for it), but the point is upon checking for the existence of the element, you still have to re-size the array. You just cannot leave an empty hole in your array after deleting an item from the array. 
+    
+      <br><br>
+
+      So you see, the arrays have its own limitations. One main limitation it has is its static data structure. If you have an array of length \(n\) and you needed to store \(k\) items in this array, but \(k > n\), then we run out of memory. To fix this, we can use a bigger array size than expected before we even try storing the items. So for instance you can create an array that can contain 1000 elements, and then use that to store the ID numbers of students of a particular class. But notice that if you have a small class, then that leads to a wastage of memory. So that isn't a good fix at all, since it lead to another problem. What if you only create the array once you find out how many students you have in the class? But the problem of this fix is that this takes extra runtime. So even if you say "<i>I'll wait until after all my students have enrolled in my course before I can create my student ID array.</i>" Again, a good idea since you would not have to run out memory nor have memory wastage since you will know how many students have enrolled in the class. But if several students start coming in still, then you would have to resize your array every single time a student enrolls for the course. This has a similar problem for students that would drop the course as you would have to take them out of the list and need to delete their student IDs from the array. So insertion/deletion is time consuming due to shifting issues. And finally, the time complexity of a growing array also needs to be considered.
+
+      <br><br>
+
+    </div>
+  </section>
+
+  <section id="ex" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Exercises</h4>
+      <hr align="left" width="400px" class="hrContact">
+Try some of these exercises regarding arrays.
+
+<br><br>
+
+<ol>
+  <li><b>Repeated Integer.</b> Let \(A\) be an array of size \(n \geq 2\) containing integers from \(1\) to \(n−1\) inclusive (in random order), one of which is repeated. Describe an algorithm for finding the integer in \(A\) that is repeated.</li>
+
+  <br><br>
+
+  <li><b>Matrix Spiral.</b> Implement an algorithm that would fill some \(n \times n\) matrix with integers from \(0\) to \(n^2-1\), starting from the center, spiraling until the entire 2D matrix is filled.
+
+  <br><br>
+
+  <b>Input Format:</b> In a single line of input separated by single spaces,
+  <ul>
+    <li>The first input is the number of rows/columns, \(n\).</li>
+    <li>The second input is a character indicating which direction should the matrix spiral first (<samp>'L'</samp> for left, <samp>'R'</samp> for right, <samp>'U'</samp> for up, and <samp>'D'</samp> for down).</li>
+    <li>The third input indicates the matrix's spiral direction (<samp>'C'</samp> for clockwise or <samp>'W'</samp> for counter-clockwise)</li>
+  </ul>
+
+  <br>
+
+  <b>Constraints:</b>
+  <ul>
+    <li>\(1 \leq n \leq 1000\)</li>
+  </ul>
+
+  <br>
+
+  <b>Output Format:</b> Print the 2D matrix (adjacent horizontal cells need to be separated by a single space). You do not need to worry about the alignment.
+
+  <br><br>
+
+  <b>Sample Input:</b> <br>
+  <samp>3 R C</samp> 
+
+  <br><br>
+
+  <b>Sample Output:</b> <br>
+  <samp>6 7 8</samp><br>
+  <samp>5 0 1</samp><br>
+  <samp>4 3 2</samp>
+
+  </li>
+</ol>
+
+    <br><br>
+    </div>
+  </section>
+
+  <section id="message" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Leave a Message</h4>
+      <hr align="left" width="400px" class="hrContact">
+
+      Use this message box for any questions, comments, concerns, typos, mistakes, or anything that you want to tell me. I am all ears :D
+
+      <br>
+      <br>
+
+      <form id="contactForm" name="contactform" method="post" action="https://ggalixcom.000webhostapp.com/form-to-email-dsa.php">
+
+      <div class="form-group">
+          <label for="usr">Name:</label>
+          <input type="text" class="form-control" name="usr">
+      </div>
+      <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" name="email">
+      </div>
+      <div class="form-group">
+          <label for="comment">Message:</label>
+          <textarea class="form-control" rows="5" name="comment"></textarea>
+      </div>
+      <div class="left" class="col-sm-10">
+            <button id="butSubmit" type="submit" class="btn btn-primary" name="submit">Submit</button>
+        </div>
+      </form>
+      <br>
+      <br>
+    </div>
+  </section>
+    <br>
+      <br>
+      <br>
+
+	<footer class="background2 footer-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2 text-small text-center">
+					<button id="buttonFooter" type="button" class="btn btn-primary btn-up-footer btn-lg round scroll-top">TOP</button>
+          <p id="foot" class="no-margin">Data Structures and Algorithms | Data Structures: ARRAYS | Last updated: September 9, 2018</p>
+				</div><!-- /.column -->
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</footer>
+</div>
+<div>
+	<script>
+
+        //use this to reset forms onload
+$('#contactForm')[0].reset();
+
+    (function() {
+    var pre = document.getElementsByTagName('pre'),
+        pl = pre.length;
+    for (var i = 0; i < pl; i++) {
+        pre[i].innerHTML = '<span class="line-number"></span>' + pre[i].innerHTML + '<span class="cl"></span>';
+        var num = pre[i].innerHTML.split(/\n/).length;
+        for (var j = 0; j < num; j++) {
+            var line_num = pre[i].getElementsByTagName('span')[0];
+            line_num.innerHTML += '<span>' + (j + 1) + '</span>';
+        }
+    }
+})();
+
+		  // Add slideDown animation to Bootstrap dropdown when expanding.
+  $('.dropdown').on('show.bs.dropdown', function() {
+    $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+  });
+
+  // Add slideUp animation to Bootstrap dropdown when collapsing.
+  $('.dropdown').on('hide.bs.dropdown', function() {
+    $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+  });
+
+$(document).ready(function(){
+  $('body').scrollspy({target: ".navbar", offset: 50});   
+  $("#navbar a").on('click', function(event) {
+    if (this.hash !== "") {
+      event.preventDefault();
+      var hash = this.hash;
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+        window.location.hash = hash;
+      });
+    }  // End if
+  });
+});
+
+/* ---- nav smooth scroll ---- */
+$(document).ready(function() {
+    $('.scroll-link').on('click', function(event){
+        event.preventDefault();
+        var sectionID = $(this).attr("data-id");
+        scrollToID('#' + sectionID, 750);
+    });
+    $('.scroll-top').on('click', function(event) {
+        event.preventDefault();
+        $('html, body').animate({scrollTop:0}, 1200);       
+    });
+});
+
+/* ---- navbar offset ---- */
+function scrollToID(id, speed){
+    var offSet = 69;
+    var targetOffset = $(id).offset().top - offSet;
+    $('html,body').animate({scrollTop:targetOffset}, speed);
+}
+var myVar;
+
+function onload() {
+    myVar = setTimeout(showPage, 1500);
+}
+
+function showPage() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("myDiv").style.display = "block";
+}
+</script>
+
+	</body>
+</html>

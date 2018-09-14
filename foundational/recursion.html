@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <!--Construction for Heaven's Tastes-->
+		<title> Recursion </title>
+		<link rel="stylesheet" href="../dsa.css" charset="utf-8"/>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:bold">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:light">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sacramento">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+		<link href="css/logoiconfont.css" rel="stylesheet">
+		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+	</head>
+	<body onload="onload();" data-spy="scroll" data-target=".navbar" data-offset="50">
+		
+		<div id="loader"></div>
+		<div style="display:none;" id="myDiv" class="animate-bottom">
+			<div>
+		<header>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" id="gca" href="http://ggalix.com">GIAN CARLO ALIX</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <!--<li class="active"><a href="#">Home</a></li>-->
+            <!--<li><a href="dsa.html">Home</a></li>-->
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../dsa.html">Home</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Data Structures <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="../data_structures/arrays.html">Arrays</a></li>
+                <li><a href="../data_structures/stacks.html">Stacks</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Algorithms <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="../algorithms/loopInvariants.html">Loop Invariants</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Foundational Concepts <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="recursion.html">Recursion</a></li>
+              </ul>
+            </li>
+            <!--<li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>-->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    </header>
+
+  <section id="recursion" class="background1 section-padding">
+    <div class="container">
+      <h2 id="colorChangeRed">Recursion</h2>
+      <hr align="left" width="400px" class="hrContact">
+
+      <i> Please again read carefully what is stated in this <a href="../disclaimer.html" target="_blank">disclaimer</a> before continuing on with your reading.</i>
+
+      <br><br>
+
+      <div class="imgCenter">
+      <img src="https://cdn-images-1.medium.com/max/500/1*N85kfgpnjGEDjTkjC05blw.jpeg" alt="recursionImg" height="25%" width="25%">
+    </div>
+
+      <br>
+
+      <ul>
+            <li><a href="#iteration">Iteration vs Recursion</a></li>
+            <li><a href="#structure">Structure of a Recursion</a></li>
+            <li><a href="#linRec">Linear Recursion</a></li>
+            <li><a href="#binRec">Binary Recursion</a></li>
+            <li><a href="#ex">Exercises</a></li>
+          </ul>
+
+<br>
+
+  </div>
+  </section>
+
+  <section id="iteration" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Iteration vs Recursion</h4>
+      <hr align="left" width="400px" class="hrContact">
+
+      A computer is able to perform tasks that are repetitive - and that is what makes it very efficient. But there are two types of repetition: one is using <b>iterative</b> code, while the other is using <b>recursive</b>. While in iteration, the program would use loops to execute some code that needed to be repeated (such as <code>for</code> and <code>while</code> loops that you see often in programming languages like Java), this is not the case for recursive programs.
+
+      <br>
+      <br>
+
+      Recursive programs perform tasks also repeatedly but in an entirely different technique. This is how it works: a recursive method will call a smaller instance of itself in order to complete a task, and then that smaller instance would have to call another instance of itself in order to complete its task. So notice the pattern recursion is taking. This recursive process will have to continuously calling smaller instances of itself until it hits what we call the <b>base case</b>, where at this point: the program should stop calling a smaller instance of itself and return some value. So I present to you an example of a recursive algorithm:
+
+      <br>
+      <br>
+
+      <pre><b>Algorithm</b> recFac(int n)
+<b>begin</b>
+  <b>if</b> (n == 0), <b>then</b>:
+    <b>return</b> 1
+  <b>else</b>:
+    <b>return</b> n * recFac(n-1)
+<b>endAlgorithm</b></pre>
+
+<br>
+
+And now, we compare this famous recursive factorial algorithm with its iterative counterpart:
+
+<br><br>
+
+<pre><b>Algorithm</b> iterFac(int n)
+<b>begin</b>
+  fac &#8592; 1
+  <b>for</b> 1 <b>to</b> n; <b>do</b>: 
+    fac &#8592; fac * i
+  <b>return</b> fac
+<b>endAlgorithm</b></pre>
+
+<br>
+
+Notice the difference. In the first version, we make recursive calls to the method itself. In the second version, we use a control structure (the <code>for</code> loop) for it to perform its repetitive algorithm.
+
+<br><br>
+
+So which to use? Both have its own pro and con, just depending on the use. There are some algorithms that turn out to be messier if done iteratively. Then there are those that have a worse runtime efficiency when done recursively. For example, if we are given an array of integers \(A\) and we wish to look for the largest number in this array, then a simple iterative method can be written for the <code>maxInt(int[] A)</code> algorithm. We only write a simple iteration method here for elegance and simplicity. But suppose you would like to search if a certain key \(k\) exists in some binary search tree \(T\), then it would be more appropriate to use a recursive method. This way, not only will the code be more elegant and less messy, but runtime would be shaved off by a logarithmic factor (due to the nature of restrictions of a BST), thus having a faster runtime.
+<br><br>
+
+  </div>
+  </section>
+
+  <section id="structure" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Structure of Recursion</h4>
+      <hr align="left" width="400px" class="hrContact">
+Let us again study the recursive version of the factorial example:
+
+<br><br>
+
+<pre><b>Algorithm</b> recFac(int n)
+<b>begin</b>
+  <b>if</b> (n == 0), <b>then</b>:
+    <b>return</b> 1
+  <b>else</b>:
+    <b>return</b> n * recFac(n-1)
+<b>endAlgorithm</b></pre>
+
+<br>
+
+In any recursive method, there must always be a:
+<ol>
+  <li><b>Base Case</b> - the recursive call should always end with a terminal call, should be a value</li>
+  <li><b>Recusive Call</b> - call should be calling the method itself, but uses a parameter of a smaller instance</li>
+</ol>
+
+So notice that line 3 in our example gives a condition of what the terminating case be. In this case, if the value of \(n\) has already reached \(0\), then the value to return must always be \(1\). Otherwise (line 5), it should return a recursive call, calling the method itself of a smaller instance (Note that the algorithm calls for \(n\), but we are calling a smaller parameter, which is \(n-1\)). 
+
+<br><br>
+
+And yes, it is that simple! But, we must take note of some possible pitfalls and common mistakes programmers make when implementing recursive algorithms.
+
+<ul>
+  <li>There must always be a <b>base condition</b>! Forgetting the base case would cause an infinite recursive call. And since recursion is implemented through a stack "under the blackbox", then failing to include a terminating case causes a <a href="https://en.wikipedia.org/wiki/Stack_overflow" target="_blank">stack overflow error</a>.</li>
+  <li>The base case should not involve more recursion. Again, it should return a value. In our example above, if line 4 calls for another instance of <code>recFac()</code>, then that is an incorrect way of implementing recursion.</li>
+  <li>The input must converge towards the base case. If for example, you have <code>return n * recFac(n+1)</code> in line 6 of the above code, then input will not be converging towards the base case. It instead will be moving away from it (since our \(n\) is some positive value and our base case is \(0\)) and hence will not reach the terminating point.</li>
+</ul>
+
+There are two types of recursion: one is linear recursion and the other is binary recursion. Let us first look at linear recursion.
+
+<br><br>
+  </div>
+  </section>
+
+  <section id="linRec" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Linear Recursion</h4>
+      <hr align="left" width="400px" class="hrContact">
+The factorial example above is linear because only one recursive call has been made per stack frame. This produces \(n\) recursive calls, so its runtime complexity is \(O(n)\). Here's another example. Given two integers \(x\) and \(n\), we use the recursive algorithm below to compute \(x^n\).
+
+<br><br>
+
+<pre><b>Algorithm</b> power(int x, int n)
+<b>begin</b>
+  <b>if</b> (n == 0), <b>then</b>:
+    <b>return</b> 1
+  <b>else</b>:
+    <b>return</b> x * power(x, n-1)
+<b>endAlgorithm</b></pre>
+
+<br>
+
+Again, this is another example of a linear recursion because of the same reason as for the recursive factorial. Similarly, the method above should also run in \(O(n)\) time. But can we do better?
+
+<br><br>
+
+Yes! The method below is a better way (better in a sense of running time). Compared to the first version of the <code>power(int x, int n)</code>, this second version shaves off only a part of what needs to be executed, and then squares it to calculate the remaining part. So for example, to compute for \(x^6\), then it is only necessary to compute for \(x^3\) and then multiplying this result to itself (squaring) - which actually turns out to be faster! If the exponent turns out to be odd, like \(x^7\) for instance, simply calculate \(x^3\), then multiply this result to itself and then multiply by \(x\).
+
+<br><br>
+
+<pre><b>Algorithm</b> powerSquare(int x, int n)
+<b>begin</b>
+  <b>if</b> n == 0, <b>then</b>:            //base case
+    return 1
+  <b>if</b> n % 2 == 1, <b>then</b>:        //odd exponent
+    y &#8592; powerSquare(x, (n-1)/2)
+    <b>return</b> x * y * y
+  <b>else</b>:                       //even exponent
+    y &#8592; powerSquare(x, n/2)
+    <b>return</b> y * y
+<b>endAlgorithm</b></pre>
+
+<br>
+
+A subtype of linear recursion, called <b>Tail Recursion</b>, occurs when a linearly recursive method makes its recursive call as its last step. A classic example of tail recursion is the method to reverse the elements of an array. So given an integer array \(A\), with \(i\) and \(j\) as its first and last indices respectively, we perform the following algorithm and make a call on <code>ArrRev(A,0,A.length-1)</code>.
+
+<br><br>
+
+<pre><b>Algorithm</b>(int[] A, int i, int j)
+<b>begin</b>
+  <b>if</b> i < j, <b>then</b>:
+    swap(A[i], A[j])
+    ArrRev(A, i+1, j-1)
+<b>endAlgorithm</b></pre>
+
+<br>
+
+Note two things here. One is that the <code>swap(A[i], A[j])</code> method in line 4 swaps whatever element is in the \(i\)th position of the array \(A\) with the element in the array's \(j\)th position. (i.e. Simply assume a method for such already exists). Another note here is that the recursive call happens whenever \(i < j\), but where is the base case? This condition only happens as soon as \(i \geq j\).
+
+<br><br>
+
+The next that we take a look at is binary recursion.
+
+<br><br>
+    </div>
+  </section>
+
+      <section id="binRec" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Binary Recursion</h4>
+      <hr align="left" width="400px" class="hrContact">
+Unlike linear recursion where we only have one recursive call for a non-base case, this type of recursion uses two. Take for example the classic Fibonacci problem. The Fibonacci sequence is formed by taking the sum of the last two numbers of the sequence, adding them to produce the third. Let the base case be 0 and 1. In mathematical symbols, we define the Fibonacci sequence as:
+
+<br><br>
+
+&nbsp; &nbsp; &nbsp; \(F_0=0\) <br>
+&nbsp; &nbsp; &nbsp; \(F_1=1\) <br>
+&nbsp; &nbsp; &nbsp; \(F_i=F_{i-1} + F_{i-2}\), <t> \(\forall i > 1\)
+
+<br><br>
+
+Here is an algorithm for implementing the Fibonacci sequence problem that computes the \(k\)th Fibonacci number given \(k\). This method uses the binary method approach.
+
+<br><br>
+
+<pre><b>Algorithm</b> fib(int k)
+<b>begin</b>
+  <b>if</b> (k < 2), <b>then</b>:
+    <b>return</b> k
+  <b>else</b>:
+    <b>return</b> fib(k-1) + fib(k-2)
+<b>endAlgorithm</b></pre>
+
+<br>
+
+The problem with this method is that it runs exponentially slow! And the larger input \(k\) that you feed to this program, the slower it would take to compute for the \(k\)th Fibonacci number. Why is this so? Well, imagine if you wish to calculate <code>fib(8)</code>. Then that means you need to calculate the values of <code>fib(7)</code> and <code>fib(6)</code>. But then, calculating <code>fib(7)</code> entails calculating <code>fib(6)</code> and <code>fib(5)</code>, while calculating <code>fib(6)</code> entails calculating <code>fib(5)</code> and <code>fib(4)</code>. Now notice why this bad, You are calculating things multiple times! Take for instance <code>fib(5)</code> here; you need to calculate that in order to obtain 
+<code>fib(6)</code>, and then again to calculate <code>fib(7)</code>. You are doing more work than necessary! And this is why this naive version of Fibonacci algorithm is slow and inefficient. But what's a better algorithm then? It's a linear version of the Fibonacci algorithm above!
+
+<br><br>
+
+<pre><b>Algorithm</b> fibLinear(int k)
+<b>begin</b>
+  <b>if</b> k == 1, <b>then</b>:
+    <b>return</b> (k, 0)
+  <b>else</b>:
+    (i, j) &#8592; fib(k-1)
+    <b>return</b> (i+j, i)
+<b>endAlgorithm</b></pre>
+
+<br>
+
+This is much better because it did not require more work than necessary. Hence, it is more efficient although this is a linear recursion and not a binary recursion. But on what particular recursive examples can binary recursion be more effective than linear recursion? If the nature of a particular algorithm is said to be arithmetically decreasing (i.e. \(n, n-1, n-2, ...\)) then linear recursion would be better. Applying binary recursion on algorithms such as the Fibonacci problem is exponentially costly due to this, since the Fibonacci sequence decreases arithmetically. But for those problems that require geometric scaling (such as \(n, n/2, n/4, ...\)), then binary recursion would be more appropriate and cheaper runtime. We will be seeing more of binary recursion in the <a href="../dsa404.html">Heaps</a> and <a href="../dsa404.html">Sorting</a> section.
+
+<br><br>
+
+Let us take an example. Given an integer array \(A\), we wish to know if a particular integer \(n\) is contained in the list. To make things more simple, assume that the elements in this array has already been sorted out in an increasing fashion. One way to determine if \(n \in A\) is by splitting the array into two sub-arrays. The first half being numbers smaller than the middle number, and the second half being greater than the middle number (the middle number can either go into the first or second half; it doesn't matter). As the integers are sorted out, we know which among the two sub-arrays can the integer possibly be and the other sub-array will for sure not contain the integer. So imagine if you have the array <code>A = [2,3,8,9,11]</code> and that your target number to look for is \(3\), then split the array into <code>A1 = [2,3,8]</code> and <code>A2 = [9,11]</code>. We are guaranteed that \(A2\) cannot have the number since our target number \(3\) is not bigger than the middle number \(8\). So we scrap off the second half and consider only the first half. We again do the same process and split the first half of the array into two halves and throw away the sub-array that is guaranteed to not contain the integer. This process repeats itself until there is only one element left in the sub-array, into which we simply just check if that integer is the integer we are looking for. This has a logarithmic runtime and we know that we used a binary recursion, and is an effective method over a linear recursion that runs in linear time. Why? This is because whenever we throw away a sub-array, we are throwing half of what was original. And you always start with half of whatever you are working with until you hit the base case of getting to 1 element left. Here is the pseudocode; make a call on <code>binarySearch(A, n, 0, A.length-1)</code>:
+
+<br><br>
+
+<pre><b>Algorithm</b> binarySearch(int[] A, int n, int i, int j)
+<b><i>[Pre-Condition]</i></b>: Take an integer n and a sorted integer array input A, along with the array's starting index i and ending index j.
+<b><i>[Post-Condition]</i></b> Output true if n is in A and false otherwise.
+<b>begin</b>                      
+  <b>if</b> A.length == 1, <b>then</b>:           //base case
+    <b>if</b> A[0] == n, <b>then</b>: <b>return</b> <b>true</b>
+    <b>else</b>: <b>return</b> <b>false</b>
+  <b>else</b>:
+    middleIndex &#8592; A.length/2
+    <b>if</b> n < A[middleIndex], then:   //element in the left half of the sub-array
+      <b>return</b> binarySearch(A, n, i, middleIndex-1)
+    <b>else</b>:                          //element in the right half of the sub-array
+      <b>return</b> binarySearch(A, n, middleIndex, j)
+<b>endAlgorithm</b></pre>
+
+<br><br>
+    </div>
+  </section>
+
+  <section id="ex" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Exercises</h4>
+      <hr align="left" width="400px" class="hrContact">
+Here are some recursion problems to try on.
+
+<br><br>
+
+<ol>
+  <li><b>Minimum.</b> As mentioned, repetitive programs can either be done iteratively or recursively just depending on the context use and that each way have its own pros and cons. Below is an iterative method for getting the least key \(k\) in a given array \(A\). Write a recursive version for this iterative method. Java code is acceptable but pseudocode is preferred.
+    <br><br>
+<pre><b>Algorithm</b> iterMin(A)
+<b>begin</b>
+  min &#8592; A[0]
+  x &#8592; 1
+  <b>while</b> x < A.length, <b>do</b>:
+    <b>if</b> min > A[x], <b>then</b>:
+      min &#8592; A[x]
+  <b>return</b> min
+<b>endAlgorithm</b></pre>
+
+<br>
+
+  </li>
+  <li><b>Adder and Repeater.</b> Multiplication is also known as "Repeated Addition". For example \(2 \times 3\) is merely \(2 + 2 + 2 = 6\). That said, implement a recursive algorithm for calculating the product of two integers, \(m\) and \(n\)</li>.
+  <li><b>Towers of Hanoi.</b> Let's play a game and here are the rules:
+    <ul>
+      <li>Imagine you have three pegs, \(A,B,C\), with \(A\) containing \(n\) discs stacked up each other (from smallest on tpp to largest at the bottom) while none in \(B\) or \(C\).</li>
+      <li>The goal of the game is to move all the pegs from Peg \(A\) to Peg \(C\) with some restrictions.</li>
+      <li>When moving discs, make sure that no larger disk will be on top of a smaller one. So the final output will be all discs in Peg \(C\) stacked up together with the smallest on top and largest at the bottom.
+    </ul>
+    Refer to the figure shown if you're still fuzzy about the game. Describe a recursive algorithm for solving the Towers of Hanoi game.
+  </li>
+</ol>
+<div class="imgCenter">
+    <img src="../imgs/hanoi.png" alt="hanoi" height="50%" width="50%">
+    </div>
+
+    <br><br>
+    </div>
+  </section>
+
+  <section id="message" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Leave a Message</h4>
+      <hr align="left" width="400px" class="hrContact">
+
+      Use this message box for any questions, comments, concerns, typos, mistakes, or anything that you want to tell me. I am all ears :D
+
+      <br>
+      <br>
+
+      <form id="contactForm" name="contactform" method="post" action="https://ggalixcom.000webhostapp.com/form-to-email-dsa.php">
+
+      <div class="form-group">
+          <label for="usr">Name:</label>
+          <input type="text" class="form-control" name="usr">
+      </div>
+      <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" name="email">
+      </div>
+      <div class="form-group">
+          <label for="comment">Message:</label>
+          <textarea class="form-control" rows="5" name="comment"></textarea>
+      </div>
+      <div class="left" class="col-sm-10">
+            <button id="butSubmit" type="submit" class="btn btn-primary" name="submit">Submit</button>
+        </div>
+      </form>
+      <br>
+      <br>
+    </div>
+  </section>
+    <br>
+      <br>
+      <br>
+
+	<footer class="background2 footer-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2 text-small text-center">
+					<button id="buttonFooter" type="button" class="btn btn-primary btn-up-footer btn-lg round scroll-top">TOP</button>
+          <p id="foot" class="no-margin">Data Structures and Algorithms | Foundations: RECURSION | Last updated: Sepotember 2, 2018</p>
+				</div><!-- /.column -->
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</footer>
+</div>
+<div>
+	<script>
+
+        //use this to reset forms onload
+$('#contactForm')[0].reset();
+
+    (function() {
+    var pre = document.getElementsByTagName('pre'),
+        pl = pre.length;
+    for (var i = 0; i < pl; i++) {
+        pre[i].innerHTML = '<span class="line-number"></span>' + pre[i].innerHTML + '<span class="cl"></span>';
+        var num = pre[i].innerHTML.split(/\n/).length;
+        for (var j = 0; j < num; j++) {
+            var line_num = pre[i].getElementsByTagName('span')[0];
+            line_num.innerHTML += '<span>' + (j + 1) + '</span>';
+        }
+    }
+})();
+
+		  // Add slideDown animation to Bootstrap dropdown when expanding.
+  $('.dropdown').on('show.bs.dropdown', function() {
+    $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+  });
+
+  // Add slideUp animation to Bootstrap dropdown when collapsing.
+  $('.dropdown').on('hide.bs.dropdown', function() {
+    $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+  });
+
+$(document).ready(function(){
+  $('body').scrollspy({target: ".navbar", offset: 50});   
+  $("#navbar a").on('click', function(event) {
+    if (this.hash !== "") {
+      event.preventDefault();
+      var hash = this.hash;
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+        window.location.hash = hash;
+      });
+    }  // End if
+  });
+});
+
+/* ---- nav smooth scroll ---- */
+$(document).ready(function() {
+    $('.scroll-link').on('click', function(event){
+        event.preventDefault();
+        var sectionID = $(this).attr("data-id");
+        scrollToID('#' + sectionID, 750);
+    });
+    $('.scroll-top').on('click', function(event) {
+        event.preventDefault();
+        $('html, body').animate({scrollTop:0}, 1200);       
+    });
+});
+
+/* ---- navbar offset ---- */
+function scrollToID(id, speed){
+    var offSet = 69;
+    var targetOffset = $(id).offset().top - offSet;
+    $('html,body').animate({scrollTop:targetOffset}, speed);
+}
+var myVar;
+
+function onload() {
+    myVar = setTimeout(showPage, 1500);
+}
+
+function showPage() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("myDiv").style.display = "block";
+}
+</script>
+
+	</body>
+</html>

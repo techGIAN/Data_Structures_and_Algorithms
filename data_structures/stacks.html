@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <!--Construction for Heaven's Tastes-->
+		<title> Stacks </title>
+		<link rel="stylesheet" href="../dsa.css" charset="utf-8"/>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:bold">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:light">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sacramento">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+		<link href="css/logoiconfont.css" rel="stylesheet">
+		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+	</head>
+	<body onload="onload();" data-spy="scroll" data-target=".navbar" data-offset="50">
+		
+		<div id="loader"></div>
+		<div style="display:none;" id="myDiv" class="animate-bottom">
+			<div>
+		<header>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" id="gca" href="http://ggalix.com">GIAN CARLO ALIX</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <!--<li class="active"><a href="#">Home</a></li>-->
+            <!--<li><a href="dsa.html">Home</a></li>-->
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../dsa.html">Home</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Data Structures <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="stacks.html">Stacks</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Algorithms <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="../algorithms/loopInvariants.html">Loop Invariants</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Foundational Concepts <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="../foundational/recursion.html">Recursion</a></li>
+              </ul>
+            </li>
+            <!--<li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>-->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    </header>
+
+  <section id="stacks" class="background1 section-padding">
+    <div class="container">
+      <h2 id="colorChangeRed">Stacks</h2>
+      <hr align="left" width="400px" class="hrContact">
+
+      <i> Please again read carefully what is stated in this <a href="../disclaimer.html" target="_blank">disclaimer</a> before continuing on with your reading.</i>
+
+      <br><br>
+
+      <div class="imgCenter">
+      <img src="https://melbournechapter.net/images/school-clipart-8.png" height="25%" width="25%">
+    </div>
+
+      <br><br>
+
+      A <b>stack</b> is a linearly-type data structure (called <i>linearly</i> because its implementation is either an array or a linked list, which are linear structures). It is also known as the <b>LIFO structure</b>, which stands for <i>Last-In-First-Out</i> structure. This means that the only element that we can remove from the stack is the top element (if we visualize the stack vertically), and this element would actually be the last element that was added to the list. So this means that elements at the bottom of the stack, or the elements that were added in first cannot be removed that easily. Picture a stack of plates, books or pancakes. It would be more easy to "take the one on top" than to get something at the middle or at the bottom. And that's why your professor wants you to "get the one on top" when passing the test exams to your neighbor!
+
+      <br><br>
+
+      <ul>
+            <li><a href="#stack">Stack ADT vs Stack Interface</a></li>
+            <li><a href="#implementation">Implementation</a></li>
+            <li><a href="#app">Examples and Applications</a></li>
+            <li><a href="#ex">Exercises</a></li>
+          </ul>
+
+<br>
+
+  </div>
+  </section>
+
+  <section id="stack" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Stack ADT vs Stack Interface</h4>
+      <hr align="left" width="400px" class="hrContact">
+
+        The <b>Stack ADT</b> (accessible from Java's utility library <code>java.util.Stack</code>) is able to store auxiliary objects. As mentioned earlier, it follows a scheme called <i>last-in-first-out</i>, where only the most recently added element to the list may be removed. This abstract data structure has two main operations, <code>push(e)</code> and <code>pop()</code>, where the former method inserts item <code>e</code> into the stack while the latter removes from the stack the item that was the most recently added into the stack. Both of these methods return the item that was inserted or removed.
+
+      <br><br>
+
+        The other methods of the ADT are <code>empty()</code> (returns a boolean value that tests whether the stack is empty), <code>peek()</code> (similar to <code>pop()</code> but does not remove the element from the stack), and <code>search(e)</code> (returns an integer value giving the position of the item <code>e</code> from the stack or <samp>-1</samp> if it is not found in the stack). For more information with regards to the methods of a stack, click <a href="https://docs.oracle.com/javase/7/docs/api/java/util/Stack.html#search(java.lang.Object)" target="_blank">here</a> for the API.
+
+      <br><br>
+
+        The <b>Stack Interface</b> on the other hand is similar to the Stack ADT but with a couple of differences. Below shows the <samp>interface</samp> implmented for a <samp>Stack</samp>.
+
+      <br><br>
+
+<pre><b>public interface Stack</b>&lt;E&gt; {
+  <b>int</b> size();               //<i>returns the number of items in the stack</i>
+  <b>boolean</b> isEmpty();        //<i>returns true if there is nothing in the stack and false otherwise</i>
+  <b>E</b> top();                  //<i>returns the item on top of the stack</i>
+  <b>void</b> push(E element);     //<i>inserts the item onto the stack</i>
+  <b>E</b> pop();                  //<i>removes the item from the stack and returns it</i>
+}</pre>
+  
+      <br>
+
+        In choosing whether to use the interface or the ADT, note that you would have to consider the differences between the two and that each one have its own pro and con. So for instance, if one wishes to use a stack interface, then one would have to carry along that interface from the above code along with some linear implementation (could be an array or a linked list) in order to be able to use a stack. On the other hand, the stack ADT is already good too - since it is already an existing library within Java. All you have to do is to import the necessary utility library for it.
+
+      <br><br>
+
+        And in terms of the methods, we all can see the differences already from the above. Both of them have a <samp>push</samp> and <samp>pop</samp> methods that allow for the insertion and removal of items in our stack. But note that while in <samp>pop</samp>, we return the item being removed apart from the fact that we remove the item from the stack. In the <samp>push</samp> method, we only return the item being added into the stack in the stack ADT implementation. For the interface version, we need not return anything.
+
+      <br><br>
+
+        Also notice that while in the stack interface implementation, there is an additional <samp>size</samp> method that returns the number of items in the stack, the ADT does not have its own and may need to have some method that keeps track count of the number of items in the stack through some global variable. It does inherit a <samp>size</samp> method from <code>java.util.Vector</code> but this is not the <samp>size</samp> that we want and will return a different behavior if we try calling it.
+
+      <br><br>
+
+        Both implementations also have a primary method that checks whether the stack is empty. The stack ADT has <samp>empty</samp> while the stack interface has <samp>isEmpty</samp>. In terms of accessing the most recently added element in the list, we have <samp>top</samp> for the stack interface and <samp>peek</samp> for the stack ADT.
+
+      <br><br>
+
+        One method that is not present with the stack interface but may be handy for the stack ADT is its <samp>search</samp> method. It checks whether the item passed on to it is present in the stack and returns an integer value of its position in the stack. If it is not in the stack, it should return <samp>-1</samp>. This is handy since we can easily access some item that we want within the stack, wherever they may be, top or bottom. In the stack interface, we might need to pop first all items in the stack if we want to access the first item that we added into the stack (queues may be more appropriate for that kind of scenario) - but then another problem arises if that's the case. Suppose upon accessing that bottom element in the stack, we still want to access the other elements. If we kept on popping the elements from the stack just to access the bottom, then all those elements have already been forgotten and lost in memory. But unless it was stored somewhere else, then we can still access them. But the issue with this one is with regards to memory - using more memory than needed. Even if we say using another stack or an array or some list, additional memory is the problem. Hence not so good. So for this scenario, a +1 is given to ADT.
+
+      <br><br>
+
+        There are still some differences between ADT and the interface apart from methods. In terms of exceptions, it shall be talked about in the later section - on implementation. For now, here is a summary table of the differences: <br><br>
+
+        <table style="width: 100%">
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: center" colspan="2"><b>Stack ADT</b></td>
+            <td style="border: 1px solid #dddddd; text-align: center" colspan="2"><b>Stack Interface</b></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: center"><b>Method</b></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><b>Return</b></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><b>Method</b></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><b>Return</b></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>push(E e)</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>E</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>push(E e)</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>void</samp></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>pop()</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>E</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>pop()</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>E</samp></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>peek()</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>E</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>top()</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>E</samp></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>empty()</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>boolean</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>isEmpty()</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>boolean</samp></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>search(E e)</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>int</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>-</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>-</samp></td>
+          </tr>
+          <tr>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>-</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>-</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>size</samp></td>
+            <td style="border: 1px solid #dddddd; text-align: center"><samp>int</samp></td>
+          </tr>
+        </table>
+
+        <br><br>
+
+  </div>
+  </section>
+
+  <section id="implementation" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Implementation</h4>
+      <hr align="left" width="400px" class="hrContact">
+        Stacks can be implemented with a linear structure such as a linked list or an array. I'll leave it to you as an exercise to implement a stack as a linked list. Its implementation has a similar flavor to that of the implementation of an array-based stack:
+
+        <br><br>
+
+<pre><b>public class ArrayStack</b>&lt;E&gt; <b>implements Stack</b>&lt;E&gt; {
+  <b>public static final int</b> CAPACITY = 1000;        <i>// default array capacity</i>
+  <b>private</b> E[ ] data;                              <i>// generic array used for </i>storage
+  <b>private int</b> t = −1;                             <i>// index of the top element in stack</i>
+    
+    // constructs stack with default capacity
+  <b>public</b> ArrayStack( ) { 
+    <b>this</b>(CAPACITY);
+  }  
+
+    // constructs stack with given capacity
+  <b>public</b> ArrayStack(int capacity) {               
+    data = (E[ ]) <b>new Object</b>[capacity];           <i>// safe cast; compiler may give warning</i>
+  }
+
+  <b>public int</b> size( ) {
+    <b>return</b> (t + 1);
+  }
+
+  <b>public boolean</b> isEmpty( ) {
+    <b>return</b> (t == −1);
+  }
+
+  <b>public void</b> push(E e) <b>throws IllegalStateException</b> {
+    if (size( ) == data.length)
+      <b>throw new IllegalStateException</b>("Stack is full");
+    data[++t] = e;                                <i>// increment t before storing new item</i>
+  }
+
+  <b>public</b> E top( ) {
+    <b>if</b> (isEmpty( )) <b>return null</b>;
+    <b>return</b> data[t];
+  }
+
+  <b>public</b> E pop( ) {
+    <b>if</b> (isEmpty( )) <b>return null</b>;
+    E answer = data[t];
+    data[t] = null;                              <i>// dereference to help garbage collection</i>
+    t−−;
+    <b>return</b> answer;
+  }
+}</pre>
+
+    <br>
+
+    For more information on the array-based stack code above, click <a href="https://doc.lagout.org/programmation/Java/Data%20Structures%20and%20Algorithms%20in%20Java%20%286th%20ed.%29%20%5BGoodrich%2C%20Tamassia%20%26%20Goldwasser%202014-01-28%5D.pdf#page=248" target="_blank">here</a>, the original source of the code above.
+
+    <br><br>
+
+    The space used here is \(O(n)\) while for all these operations, they run in \(O(1)\). Also note that in trying to access the top element of the stack or trying to pop the stack if it is empty gives a <samp>null</samp> for the interface version of a stack but gives an <samp>EmptyStackException</samp> for the util version. Also note that in the util version that we can add as many elements as we want in our stack as the stack there is extendable (well of course it also depends on your system's memory). The stack used above is array-based, meaning that it can get full as soon as it has reached its limit. Trying to extend it is very costly in terms of runtime and memory space, which is one important drawback to note in using the above implementation.
+
+    <br><br>
+    </div>
+  </section>
+
+  <section id="app" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Examples and Applications</h4>
+      <hr align="left" width="400px" class="hrContact">
+
+      Let us start with our first example. Suppose we have some Stack \(S\) and then we run the following stack operations sequentially on \(S\):
+      <ul>
+        <li><samp>isEmpty()</samp></li>
+        <li><samp>push(5)</samp></li>
+        <li><samp>size()</samp></li>
+        <li><samp>push(3)</samp></li>
+        <li><samp>top()</samp></li>
+        <li><samp>pop()</samp></li>
+        <li><samp>pop()</samp></li>
+        <li><samp>pop()</samp></li>
+      </ul>
+
+      Below illustrates the output and what the Stack \(S\) looks like visually. <br><br>
+
+      <table style="width:100%;">
+        <tr>
+          <td style="border: 1px solid #dddddd; text-align: center"><b>Method</b></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>isEmpty()</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>push(5)</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>size()</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>push(3)</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>top()</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>pop()</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>pop()</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>pop()</samp></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #dddddd ; text-align: center"><b>Return</b></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>true</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>-</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>1</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>-</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>3</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>3</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>5</samp></td>
+          <td style="border: 1px solid #dddddd; text-align: center"><samp>null</samp></td>
+        </tr>
+        <tr>
+          <td style="border: 1px solid #dddddd; text-align: center"><b>Stack</b></td>
+          <td style="border: 1px solid #dddddd; text-align: center">
+            <div class="imgCenter">
+              <img src="../imgs/stack0.png" height="25%" width="25%">
+            </div>
+          </td>
+          <td style="border: 1px solid #dddddd; text-align: center">
+            <div class="imgCenter">
+              <img src="../imgs/stack1.png" height="25%" width="25%">
+            </div>
+          </td>
+          <td style="border: 1px solid #dddddd; text-align: center">
+            <div class="imgCenter">
+              <img src="../imgs/stack1.png" height="25%" width="25%">
+            </div>
+          </td>
+          <td style="border: 1px solid #dddddd; text-align: center">
+            <div class="imgCenter">
+              <img src="../imgs/stack2.png" height="25%" width="25%">
+            </div>
+          </td>
+          <td style="border: 1px solid #dddddd; text-align: center">
+            <div class="imgCenter">
+              <img src="../imgs/stack2.png" height="25%" width="25%">
+            </div>
+          </td>
+          <td style="border: 1px solid #dddddd; text-align: center">
+            <div class="imgCenter">
+              <img src="../imgs/stack1.png" height="25%" width="25%">
+            </div>
+          </td>
+          <td style="border: 1px solid #dddddd; text-align: center">
+            <div class="imgCenter">
+              <img src="../imgs/stack0.png" height="25%" width="25%">
+            </div>
+          </td>
+          <td style="border: 1px solid #dddddd; text-align: center">
+            <div class="imgCenter">
+              <img src="../imgs/stack0.png" height="25%" width="25%">
+            </div>
+          </td>
+        </tr>
+      </table>
+    
+      <br><br>
+
+      <p>
+        <img src="../imgs/stackMethod.png" width="12%" style="float: right">
+      You may not realize it, but stacks are really important. In the context of computing, method calls within a program use a stack. Suppose you are running some Java program below:
+
+      <br><br>
+
+<pre><b>class Sample</b> {
+  <b>void</b> <i>main</i>(<b>String[]</b> args) {
+    <i>A</i>();
+    <i>System.out.println</i>("done");
+  }
+  <b>void</b> <i>A</i>() { <i>B</i>(); }
+  <b>void</b> <i>B</i>() { <i>C</i>(); }
+  <b>void</b> <i>C</i>() { <i>System.out.println</i>("Method call over."); }
+}</pre>
+    </p>
+      <br>
+
+      <p>
+        <img src="https://img.moneysavingmom.com/wp-content/uploads/2017/02/Screen-Shot-2017-02-22-at-10.21.56-AM.png" width="30%" style="float: right; padding-left: 10px">
+      Notice the method stack. Java will push into the method stack whatever method was called. So imagine that we are executing this program above (or whichever program), and will begin its execution on the <code><i>main</i>()</code> method. We push this method into our method stack. In our program, it makes a call on <code><i>A</i>()</code> (this can be some generic method in some generic Java program). By Line 3, it should have pushed <code><i>A</i>()</code> into our method stack too. When it executes <code><i>A</i>()</code>, it then calls on method <code><i>B</i>()</code>. Again, method calls indicate pushing the method into the method stack. So we push <code><i>B</i>()</code> too. Similarly, we do the same for method <code><i>C</i>()</code>. What we should be getting is the method stack shown in the image. But then notice that there are no more method calls in <code><i>C</i>()</code>. This means that after the execution of <code><i>C</i>()</code>, upon its return, it should be popped from the method stack. The return value of the pop from the method stack is the same return value from the return of the execution of <code><i>C</i>()</code>. In this case, it is <code>void</code>. Upon completion of method <code><i>C</i>()</code> and popping it from the method stack, we will do the same for methods <code><i>B</i>()</code> and <code><i>A</i>()</code> respectively. After the execution of Line 3, only <code><i>main</i>()</code> should be left on the stack. We print the final statement at Line 4 and then return, popping <code><i>main</i>()</code> from the method stack. Obviously, we can see this use of method stack and stack overflows in <a href="../foundational/recursion.html" target="_blank">recursion</a>.
+
+      <br><br>
+
+      Another problem we can consider with regards to the application of stacks is the parenthesis matching algorithm. Given a string of only parentheses, braces and/or brackets, implement an algorithm that would return <samp>true</samp> if the string passed is valid and <samp>false</samp> otherwise. By valid, we mean that the string contains the same number of opening and closing symbols. Also, the corresponding closing symbol for some opening opening symbol should always come after. So for example the strings <code>( )(( )){([( )])}</code> and <code>(( )(( ))){([( )])}</code> are both valid while <code>)(( )){([( )])}</code> and <code>({[ ])}</code> are not. Here is an algorithm for it.
+
+      <br><br>
+
+<pre><b>Algorithm matchParentheses</b>(str)
+<b><i>[Input]:</i></b> A string containing parentheses, brackets and/or braces
+<b><i>[Output]:</i></b> true if the symbols matched, false otherwise
+<b>begin</b>
+  S &#8592; an empty stack                <i>//initialize a stack</i>
+  openingSymbols &#8592; {"(", "{", "["}  <i>//define our symbols</i>
+  closingSymbols &#8592; {")", "}", "]"}
+  <b>for</b> i &#8592; 0 <b>to</b> str.length-1; <b>do</b>
+    <b>if</b> str.charAt(i) &isin; openingSymbols, <b>then</b>
+      S.push(str.charAt(i))
+    <b>else if</b> str.charAt(i) &isin; closingSymbols, <b>then</b>
+      <b>if</b> S.isEmpty(), <b>then</b>
+        <b>return false</b>               <i>//has nothing to match with</i>
+      <b>if</b> openingSymbols.indexOf(S.pop()) != closingSymbols.indexOf(str.charAt(i)), <b>then</b>   
+        <b>return false</b>               <i>//wrong matching symbol</i>
+  <b>if</b> S.isEmpty(), <b>then</b>
+    <b>return true</b>                    <i>//every symbol matched</i>
+  <b>else</b>
+    <b>return false</b>                   <i>//some symbols were never matched</i>
+<b>endAlgorithm</b></pre>
+
+      <br>
+
+      And of course, not just in computing but we can also see stacks all around us in our daily lives. Stacks of clothes, stacks of pancakes, stacks of books, stacks of plates, etc.
+      <br><br>
+      </p>
+
+    </div>
+  </section>
+
+  <section id="ex" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Exercises</h4>
+      <hr align="left" width="400px" class="hrContact">
+Try some of these exercises regarding stacks.
+
+<br><br>
+
+<ol>
+  <li><b>Linked List Reverser.</b> You are given a linked list \(L\), assume it is singly-linked. Describe a way of reversing \(L\) that uses a stack.</li>
+
+  <br><br>
+
+  <li><b>Postfix Notation.</b> The postfix notation is an unambiguous way of writing an arithmetic expression without parentheses. It is defined so that if <code>(exp1) <b>op</b> (exp2)</code> is a normal fully parenthesized expression whose operation is <code><b>op</b></code>, the postfix version of this is <code>pexp1 pexp2 <b>op</b></code>, where <code>pexp1</code> is the postfix version of <code>exp1</code> and <code>pexp2</code> is the postfix version of <code>exp2</code>. The postfix version of a single number or variable is just that number or variable. 
+  
+  <br><br>
+
+  So, for example, the postfix version of <code>((5+2) ∗ (8−3))/4</code> is <code>5 2 + 8 3 − ∗ 4 /</code>. Describe a nonrecursive way of evaluating an expression in postfix notation.</li>
+
+  <br><br>
+
+  <li><b>Equal Stacks.</b> Credits to <a href="https://www.hackerrank.com/" target="_blank">Hacker Rank</a> for this problem, you may write a Java program or a pseudocode for this (or code this even to test your work).
+
+    <br><br>
+
+    You have three stacks of cylinders where each cylinder has the same diameter, but they may vary in height. You can change the height of a stack by removing and discarding its topmost cylinder any number of times.
+
+  <br><br>
+
+  Find the maximum possible height of the stacks such that all of the stacks are exactly the same height. This means you must remove zero or more cylinders from the top of zero or more of the three stacks until they're all the same height, then print the height. The removals must be performed in such a way as to maximize the height.
+
+  <br><br>
+
+  <b>Input Format:</b> The first line contains three space-separated integers \(n_1,n_2,n_3\), describing the respective number of cylinders in stacks, 1, 2, and 3. The subsequent lines describe the respective heights of each cylinder in a stack from top to bottom:
+  <ul>
+    <li>The second line contains $n_1$ space-separated integers describing the cylinder heights in stack 1.</li>
+    <li>The third line contains $n_2$ space-separated integers describing the cylinder heights in stack 2.</li>
+    <li>The fourth line contains $n_3$ space-separated integers describing the cylinder heights in stack 3.</li>
+  </ul>
+
+  <br>
+
+  <b>Constraints:</b>
+  <ul>
+    <li>\(0 \leq n_1,n_2,n_3 \leq 10^5\)</li>
+    <li>\(0 < h \leq 100\), where \(h\) is the height of any cylinder</li>
+  </ul>
+
+  <br>
+
+  <b>Output Format:</b> Print a single integer denoting the maximum height at which all stacks will be of equal height.
+
+  <br><br>
+
+  <b>Sample Input:</b> <br>
+  <samp>5 3 4</samp> <br>
+  <samp>3 2 1 1 1</samp> <br>
+  <samp>4 3 2</samp> <br>
+  <samp>1 1 4 1</samp>
+
+  <br><br>
+
+  <b>Sample Output:</b> <br>
+  <samp>5</samp>
+
+  <br><br>
+
+  <b>Explanation:</b> Initially, the stacks look like this:
+      <div class="imgCenter">
+        <img src="../imgs/stackEx1.png" height="15%" width="15%">
+      </div>
+
+      <br><br>
+
+  Observe that the three stacks are not all the same height. To make all stacks of equal height, we remove the first cylinder from stacks 1,2 and 3 then remove the top two cylinders from stack  (shown below).
+
+<br><br>
+  <div class="imgCenter">
+        <img src="../imgs/stackEx2.png" height="28%" width="28%">
+      </div>
+
+      <br><br>
+  As a result, the stacks undergo the following change in height:
+
+  <br><br>
+
+  <samp>Stack 1: 8 - 3 = 5</samp><br>
+  <samp>Stack 2: 9 - 4 = 5</samp><br>
+  <samp>Stack 3: 7 - 1 - 1 = 5</samp>
+
+  <br><br>
+
+  Thus we print out <samp>5</samp> as the answer.
+
+  </li>
+</ol>
+
+    <br><br>
+    </div>
+  </section>
+
+  <section id="message" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Leave a Message</h4>
+      <hr align="left" width="400px" class="hrContact">
+
+      Use this message box for any questions, comments, concerns, typos, mistakes, or anything that you want to tell me. I am all ears :D
+
+      <br>
+      <br>
+
+      <form id="contactForm" name="contactform" method="post" action="https://ggalixcom.000webhostapp.com/form-to-email-dsa.php">
+
+      <div class="form-group">
+          <label for="usr">Name:</label>
+          <input type="text" class="form-control" name="usr">
+      </div>
+      <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" name="email">
+      </div>
+      <div class="form-group">
+          <label for="comment">Message:</label>
+          <textarea class="form-control" rows="5" name="comment"></textarea>
+      </div>
+      <div class="left" class="col-sm-10">
+            <button id="butSubmit" type="submit" class="btn btn-primary" name="submit">Submit</button>
+        </div>
+      </form>
+      <br>
+      <br>
+    </div>
+  </section>
+    <br>
+      <br>
+      <br>
+
+	<footer class="background2 footer-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2 text-small text-center">
+					<button id="buttonFooter" type="button" class="btn btn-primary btn-up-footer btn-lg round scroll-top">TOP</button>
+          <p id="foot" class="no-margin">Data Structures and Algorithms | Data Structures: STACKS | Last updated: September 9, 2018</p>
+				</div><!-- /.column -->
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</footer>
+</div>
+<div>
+	<script>
+
+        //use this to reset forms onload
+$('#contactForm')[0].reset();
+
+    (function() {
+    var pre = document.getElementsByTagName('pre'),
+        pl = pre.length;
+    for (var i = 0; i < pl; i++) {
+        pre[i].innerHTML = '<span class="line-number"></span>' + pre[i].innerHTML + '<span class="cl"></span>';
+        var num = pre[i].innerHTML.split(/\n/).length;
+        for (var j = 0; j < num; j++) {
+            var line_num = pre[i].getElementsByTagName('span')[0];
+            line_num.innerHTML += '<span>' + (j + 1) + '</span>';
+        }
+    }
+})();
+
+		  // Add slideDown animation to Bootstrap dropdown when expanding.
+  $('.dropdown').on('show.bs.dropdown', function() {
+    $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+  });
+
+  // Add slideUp animation to Bootstrap dropdown when collapsing.
+  $('.dropdown').on('hide.bs.dropdown', function() {
+    $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+  });
+
+$(document).ready(function(){
+  $('body').scrollspy({target: ".navbar", offset: 50});   
+  $("#navbar a").on('click', function(event) {
+    if (this.hash !== "") {
+      event.preventDefault();
+      var hash = this.hash;
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+        window.location.hash = hash;
+      });
+    }  // End if
+  });
+});
+
+/* ---- nav smooth scroll ---- */
+$(document).ready(function() {
+    $('.scroll-link').on('click', function(event){
+        event.preventDefault();
+        var sectionID = $(this).attr("data-id");
+        scrollToID('#' + sectionID, 750);
+    });
+    $('.scroll-top').on('click', function(event) {
+        event.preventDefault();
+        $('html, body').animate({scrollTop:0}, 1200);       
+    });
+});
+
+/* ---- navbar offset ---- */
+function scrollToID(id, speed){
+    var offSet = 69;
+    var targetOffset = $(id).offset().top - offSet;
+    $('html,body').animate({scrollTop:targetOffset}, speed);
+}
+var myVar;
+
+function onload() {
+    myVar = setTimeout(showPage, 1500);
+}
+
+function showPage() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("myDiv").style.display = "block";
+}
+</script>
+
+	</body>
+</html>

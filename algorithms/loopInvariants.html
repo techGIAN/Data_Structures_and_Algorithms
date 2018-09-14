@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <!--Construction for Heaven's Tastes-->
+		<title> Loop Invariants </title>
+		<link rel="stylesheet" href="../dsa.css" charset="utf-8"/>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:bold">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway:light">
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sacramento">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+		<link href="css/logoiconfont.css" rel="stylesheet">
+		<meta charset="utf-8">
+  		<meta name="viewport" content="width=device-width, initial-scale=1">
+  		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+      <script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+<script type="text/javascript"
+    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+	</head>
+	<body onload="onload();" data-spy="scroll" data-target=".navbar" data-offset="50">
+		
+		<div id="loader"></div>
+		<div style="display:none;" id="myDiv" class="animate-bottom">
+			<div>
+		<header>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" id="gca" href="http://ggalix.com">GIAN CARLO ALIX</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <!--<li class="active"><a href="#">Home</a></li>-->
+            <!--<li><a href="dsa.html">Home</a></li>-->
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="../dsa.html">Home</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Data Structures <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="../data_structures/arrays.html">Arrays</a></li>
+                <li><a href="../data_structures/stacks.html">Stacks</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Algorithms <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="loopInvariants.html">Loop Invariants</a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Foundational Concepts <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="../foundational/recursion.html">Recursion</a></li>
+              </ul>
+            </li>
+            <!--<li class="active"><a href="./">Fixed top <span class="sr-only">(current)</span></a></li>-->
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    </header>
+
+  <section id="recursion" class="background1 section-padding">
+    <div class="container">
+      <h2 id="colorChangeRed">Loop Invariants</h2>
+      <hr align="left" width="400px" class="hrContact">
+
+      <i> Please again read carefully what is stated in this <a href="../disclaimer.html" target="_blank">disclaimer</a> before continuing on with your reading.</i>
+
+      <br><br>
+
+      <ul>
+            <li><a href="#assertion">Assertions</a></li>
+            <li><a href="#defn">Definition of a Loop Invariant</a></li>
+            <li><a href="#correctness">Correctness</a></li>
+            <li><a href="#eg">Other Examples</a></li>
+            <li><a href="#ex">Exercises</a></li>
+          </ul>
+
+<br>
+
+  </div>
+  </section>
+
+  <section id="assertion" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Assertions</h4>
+      <hr align="left" width="400px" class="hrContact">
+
+      An <b>assertion</b> is a statement about the state of the data at a specified point in the algorithm. It is NOT a task for the algorithm to perform. 
+
+      <br>
+      <br>
+
+      Consider this algorithm to calculate the <b>greatest common divisor</b> of two positive integers \(a\) and \(b\). Note that the GCD of two numbers is the largest number that divides both these two numbers evenly. For example <code>gcd(14,30) = 2</code> and <code>gcd(115,230) = 115</code>:
+
+      <br>
+      <br>
+
+      <pre><b>Algorithm</b> gcd(int a, int b)
+<b><i>[Pre-Condition]:</i></b> Inputs a and b are positive integers.
+<b><i>[Post-Condition]:</i></b> The output is the largest integer that divides both a and b evenly.
+<b>begin</b>
+  <b>while</b> a != b, <b>do</b>:
+    <b>if</b> a > b, <b>then</b>:
+      a &#8592; a - b
+    <b>else</b>:
+      b &#8592; b - a
+  <b>return</b> a
+<b>endAlgorithm</b></pre>
+
+<br>
+
+It is quite interesting that this algorithm shows us the very beautiful property exemplified in number theory: \(gcd(a,b)=gcd(a-b,b)\), for some positive integers \(a\) and \(b\) where \(a > b\). We are not really going to talk about the nature of this algorithm, why it works and why is this an efficient one. But rather, we shall study the types of assertions in this algorithm.
+<br><br>
+
+<ul>
+  <li><b>Pre-conditions</b> - these are any assumptions that must be true about the input instance</li>
+  <li><b>Post-conditions</b> - the statement of what must be true when the algorithm or program returns</li>
+  <li><b>Exit conditions</b> - the statement of what must be true to exit the loop</li>
+</ul>
+
+So in our little program above, we have stated that \(a\) and \(b\) must be positive integers. Otherwise, then our program is pointless to even execute. Who knows whether or not the output will give a correct value. The post-condition states that the output of this program should give the greatest common divisor of \(a\) and \(b\). If given the correct input and pre-conditions, we come across an incorrect output or a false post-condition, then there must be something wrong with the code. Finally, the exit condition can be seen in our <code>while</code> loop. The loop will continuously run until the value of \(a\) becomes equal to the value of \(b\).
+
+<br><br>
+
+Another example of an assertion is called the <b>Loop Invariants</b>, which typically is an assertion designed for loops. 
+
+<br><br>
+
+  </div>
+  </section>
+
+  <section id="defn" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Definition of a Loop Invariant</h4>
+      <hr align="left" width="400px" class="hrContact">
+A loop invariant is an assertion about the current state, useful for designing, analyzing and proving the correctness of iterative algorithms.
+
+<br><br>
+
+Consider the algorithm for getting the largest integer in an <code>int[]</code> array \(A\). 
+
+<br><br>
+
+<pre><b>Algorithm</b> maxInt(int[] A)
+<b><i>[Pre-Condition]:</i></b> An integer array A, as input
+<b><i>[Post-Condition]:</i></b> The output is the largest integer in A
+<b>begin</b>
+  max &#8592; A[0]
+  n &#8592; A.length-1
+  <b><i>[Loop Invariant]:</i></b> Before the jth iteration of the loop, max would be equal to the largrest integer in the sub-array A[0...j-1].
+  <b>for</b> i &#8592; 1 <b>to</b> n, <b>do</b>:
+    <b>if</b> max < A[i], <b>then</b>:
+      max &#8592; A[i]
+  <b>return</b> max
+<b>endAlgorithm</b></pre>
+
+<br>
+
+Before talking about how can we know or how can we show that the loop invariant that we wrote is correct, let us first focus on writing our own loop invariant. In a while, I will also be giving you some of my tips in writing a loop invariant - the do's and dont's and what's needed to be considered.
+
+<br><br>
+
+The intuition is that at the beginning, i.e. before the start of the loop, we know that value of <code>max</code> is equal to whatever integer is in the \(0\)th index of the array \(A\). So before the \(1\)st iteration of the loop, then <code>max</code> equals the value of <code>A[0]</code>. And then by the end of the \(1\)st iteration, which would also be before the \(2\)nd iteration of the loop begins, then <code>max</code> should have a value equal to the largest number in the sub-array <code>A[0,1]</code>. Suppose we are looking at a bigger picture by making bigger steps, say perhaps after the \(9\)th iteration of the loop and before the start of the loop's \(10\)th iteration. What do we know? Well, at this point, the value of <code>max</code> should be the largest integer in the sub-array <code>A[0...9]</code>. And then, we again look at the bigger picture. What happens at the \(j\)th iteration of the loop? Rather than focusing on what happens at the end of the loop, I think it would be better if we focus on what we know, what is true, and what happens before the start of loop - in particular in iteration \(j\). 
+
+<br><br>
+
+Let us focus on the example above. I claim that the loop invariant is that <i>Before the \(j\)th iteration of the loop, <code>max</code> would be equal to the largest integer in the sub-array <code>A[0...j-1]</code></i>. Later we will be writing a more formal proof for why this is a valid loop invariant and what makes it correct. But for now, stay with me for intuition. Again, we need to take a look at the big picture and focus at the <b>beginning</b> of the loop, say at iteration \(j\). But note that when I say "at the beginning", this means that I am referring to the point at where the program is running before the start of the loop. And then I go claiming that the value of <code>max</code> would be equal to the largest integer in some sub-array. Clearly, I made no other comment on the other existing variables that are part of the loop, such as our counter <code>i</code>. This is because we only cared about <code>max</code> in the first place, and tried to modify this throughout the loop. And also, this is the only one that we care and will return by the end of the algorithm. But there may be other cases too where reporting about the other variables may be necessary. So just be aware of that. And then which sub-array are we talking about? This is where we have to be careful. A lot of programmers get tripped up writing the L.I. all because of the mistake of <b>off-by-one errors</b>. Was the sub-array <code>A[0...j]</code> or <code>A[0...j+1]</code> or <code>A[0...j-1]</code>? Or does it start the sub-array's index start with \(1\) instead of \(0\)? I agree that these may all sound confusing. But my trick for knowing it, is to examine values and do some tracing. At \(j=1\)st iteration of the loop, then what do we know? It's simply the largest in the 1-element sub-array <code>A[0]</code>. For \(j=2\)nd, then <code>max</code> is the largest in the sub-array <code>A[0,1]</code>. For \(j=3\)rd, then <code>max</code> is the largest in the sub-array <code>A[0..2]</code>. And I guess you can predict that before the start of the \(j=18\)th iteration of the loop, then <code>max</code> should equal the largest integer in the sub-array <code>A[0...17]</code>. So you could imagine that the sub-array we are talking about before the \(j\)th iteration of the loop is the sub-array <code>A[0...j-1]</code>. So there you go, we have just intuitively shown that our loop invariant is correct. It is also concise and clear, a characteristic of a well-written loop invariant. But I guess it is not enough to know what we are doing is correct intuitively. It is also important to show that we are doing it correct formally. And by that I shall now present to you a more formal proof when it comes to the correctness of iterative algorithms.
+
+<br><br>
+
+  </div>
+  </section>
+
+  <section id="correctness" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Correctness</h4>
+      <hr align="left" width="400px" class="hrContact">
+Let us again study the iterative <code>maxInt(int[] A)</code> algorithm.
+
+<br><br>
+
+
+<pre><b>Algorithm</b> maxInt(int[] A)
+<b><i>[Pre-Condition]:</i></b> An integer array A, as input
+<b><i>[Post-Condition]:</i></b> The output is the largest integer in A
+<b>begin</b>
+  max &#8592; A[0]
+  n &#8592; A.length-1<div style="background-color: orange"><b><i>[Loop Invariant]:</i></b> Before the jth iteration of the loop, max would be equal to the largrest integer in the sub-array A[0...j-1].
+  <b>for</b> i &#8592; 1 <b>to</b> n, <b>do</b>:
+    <b>if</b> max < A[i], <b>then</b>:
+      max &#8592; A[i]
+</div>  <b>return</b> max
+    <b>endAlgorithm</b></pre>
+
+<br>
+
+Correctness is defined as: $$ \textbf{[pre-conditions]} \land \textbf{[code]} \rightarrow \textbf{[post-conditions]} $$ Note that both the code and the pre-conditions have to be correct in order for the post-conidtion to hold. Otherwise, then there is nothing that is required. Below I have written below a formal proof for proving the loop invariant of the above iterative algorithm. (And when I say proving a loop invariant, I meant proving the correctness of the loop invariant).
+
+<div class="bs-callout bs-callout-info" id="correctnessProof">
+  <h4 style="color: #1b809e">Correctness for maxInt Algorithm</h4>
+  <ul>
+    <li><b><u>Pre-condition before the Loop</u></b>: The input array <code>A</code> consists of integers (at least one).</li>
+    <li><b><u>Loop Invariant</u></b>: Before the \(j\)th iteration of the loop, then the value of <code>max</code> would be the largest integer in the sub-array <code>A[0...j-1]</code>. Below are the three steps to show this holds. Also notice that our way of proof has a similar flavour to how we do it in induction.
+      <ol>
+        <li><b>Initialization</b>: The value of <code>max</code> is equal to <code>A[0]</code>. And this is the value of <codE>max</code> before the start of the loop. And if <code>A.length = 1</code>, then the algorithm will not enter the loop and still it is still valid to say that the value of the element in this 1-element array is equal to the <code>max</code> of the array <code>A</code>. This is \(LI(1)\) and we were able to show that it is true.</li>
+        <li><b>Maintenance</b>: Assume \(LI(j-1)\) to hold true, for all \(2 \leq j < n\), where \(n\) is equal to <code>A.length</code>. Then that means that <code>max</code> should contain a value that is equal to the largest integer in the sub-array <code>A[0...j-2]</code>. Now what does \(LI(j)\) say? This is at the point before the \(j\)th iteration of the loop begins. We examine the element in <code>A[j-1]</code>. Currently, the largest integer in the sub-array <code>A[0....j-2]</code> is stored in <code>max</code>. There are two cases. The first case being <code>max</code> being larger than or equal to the integer in <code>A[j-1]</code> being examined. If that's the case then nothing is changed; <code>max</code> is still the largest in the sub-array but now extended to <code>A[0...j-1]</code>. But what about the other case? If it turns out the <code>max</code> is smaller than the integer being examined at <code>A[j-1]</code>, then we replace the value of <code>max</code> with whatever is the value of in <code>A[j-1]</code>; and again, <code>max</code> holds the value of the largest integer in the sub-array <code>A[0...j-1]</code>. Thus we have shown that \(LI(j)\) holds.</li>
+        <li><b>Termination Condition</b>: The condition where we terminate out of the loop to avoid getting into an infinite loop would be when we have traversed the entire array. So in other words, if \(n\) equals <code>A.length - 1</code>, then we terminate when \(i = n\).</li>
+      </ol>
+    </li>
+    <li><b><u>Termination implies post-condition</u></b>: The loop terminates when \(i = n\), where <code>n = A.length</code>. By the end of loop, <code>max</code> should have a value equal to the largest integer in the sub-array <code>A[0...n-1]</code>, which is in actuallity the entire array \(A\).</li>
+  </ul>
+</div>
+    </div>
+  </section>
+
+      <section id="eg" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Other Examples</h4>
+      <hr align="left" width="400px" class="hrContact">
+In this section, we will take a look at another example. Recall the recursive version of the <code>power(int x, int y)</code> function, where this algorithm takes in two non-negative integers and outputs the value of \(x^y\). Now we can write an iterative version of this algorithm:
+
+<br><br>
+
+<pre><b>Algorithm</b> powerIterative(int x, int y)
+<b>begin</b>
+  p &#8592; 0
+  prod &#8592; 1
+  <b>while</b> p < y, <b>do</b>:
+    prod &#8592; prod * x
+    p++
+  <b>return</b> prod 
+<b>endAlgorithm</b></pre>
+
+<br>
+
+Note that recursive <code>powerSquare(int x, int y)</code> algorithm runs computationally faster than the above but for the purposes of learning loop invariants, we'll take a look at simple, easy, straightforward version. Now, we wish to prove the correctness of the above iterative algorithm. To do that let us look at the formal proof of it:
+
+<div class="bs-callout bs-callout-info" id="correctnessProof2">
+  <h4 style="color: #f2a91a">Correctness for powerIterative Algorthm</h4>
+  <ul>
+    <li><b><u>Pre-condition before the Loop</u></b>: The value of \(prod=1\) and \(p=0\).</li>
+    <li><b><u>Loop Invariant</u></b>: Before the \(j\)th iteration of the loop, then \(prod=x^{j-1}\)
+      <ol>
+        <li><b>Initialization</b>: In showing \(LI(1)\), then \(prod=1\). We know this is true because before the first iteration, \(prod\) will have a value of \(1=x^0=x^{1-1}\).</li>
+        <li><b>Maintenance</b>: Assume \(LI(j-1)\) to hold true, for all \(j > 2\). This means that before the \((j-1)\)th iteration, then \(prod=x^{j-2}\). To get to the \(j\)th iteration of the loop, we run the loop 1 more time, which means \(prod = x^{j-2} \times x = x^{j-1}\), which is the value of \(prod\) before the start of the \(j\)th iteration of the loop. Hence \(LI(j)\) also holds.</li>
+        <li><b>Termination Condition</b>: The loop will terminate when \(p=y\).</li>
+      </ol>
+    </li>
+    <li><b><u>Termination implies post-condition</u></b>: The loop will terminate when \(p=y\). By then \(prod\) will have a value of \(x^y\).</li>
+  </ul>
+</div>
+
+    </div>
+  </section>
+
+  <section id="ex" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Exercises</h4>
+      <hr align="left" width="400px" class="hrContact">
+Here are some problems to practice on. For each one, write the loop invariant and prove formally using correctness.
+
+<br><br>
+
+<ol>
+  <li><b>Fibonacci.</b> Recall that each number in a Fibonacci sequence is equal to the sum of the previous two. Let the first two numbers be 0 and 1. We have seen a recursive version before. Below is its iterative version.
+    <br><br>
+<pre><b>Algorithm</b> fibIterative(int k)
+<b><i>[Pre-condition]:</i></b> This takes a non-negative integer k as an input.
+<b><i>[Post-condition]:</i></b> This outputs the kth Fibonacci number, with 0 as the 0th Fibonacci number and 1 being the 1st Fibonacci number.
+<b>begin</b>
+  prev &#8592; 0
+  curr &#8592; 1
+  <b>for</b> i &#8592; 1 to k; <b>do</b>:
+    temp &#8592; prev + curr
+    prev &#8592; curr
+    curr &#8592; temp
+  <b>return</b> curr
+<b>endAlgorithm</b></pre>
+
+<br>
+
+  </li>
+  <li><b>Binary Search.</b> Given an integer array sorted from least to greatest and some integer key value, we can search whether or not this key exists in the array by linearly traversing each cell, checking whether each element is equal to our target (then of course stop once we found it). If the first element of the array is what we are looking for, then we are in luck as it only took \(O(1)\) time to do so. But in the worst case, we have \(O(n)\). This happens when the target key is found somewhere close to the end of the list, or perhaps when the target key is not there at all.
+
+  <br><br>
+
+<div class="imgCenter">
+<img src="http://skillprogramming.com/images/pictuers/binary_vs_linear_search.gif" height="50%" width="50%">
+</div>
+
+<br><br>
+
+Binary Search, unlike linear search, should take \(O(\log n)\) on the average case. As seen from the above animation (with 37 as the key target), we start our search from the middle of the array and checks whether or not the target is in the left or right half of the array. This allows us to reduce the amount of work that the program does (i.e. need not check the other half of the array if we know that the target can never be there). We will do the process iteratively until there is only one element left to check. From there, check whether or not that element is the target we are looking for. <a href="https://www.cs.usfca.edu/~galles/visualization/Search.html" target="_blank">Here</a> is an applet that you can play with for binary search. We have seen a recursive version of binary search before. Now we look at its iterative version.
+
+<br><br>
+
+<pre><b>Algorithm</b> binarySearchIterative(int[] A, int key)
+<b><i>[Pre-Condition]</i></b>: Take an integer key and a sorted integer array input A.
+<b><i>[Post-Condition]</i></b> Output true if the key is in A and false otherwise.
+<b>begin</b>
+  p &#8592; 0
+  q &#8592; A.length - 1
+  <b>while</b> q >= p; <b>do</b>:
+    mid &#8592; (p + q)/2
+    <b>if</b> key < A[mid], <b>then</b>:
+      q &#8592; mid - 1
+    <b>elif</b> key > A[mid], <b>then</b>:
+      p &#8592; mid + 1
+    <b>else</b>:
+      <b>return</b> <b>true</b>
+  <b>return</b> <b>false</b>
+<b>endAlgorithm</b></pre>
+
+<br>
+
+Note that linear search does not assume the order of the elements in the array. However, binary search restricts us to have a sorted ordering of integers in our array. 
+  </li>
+</ol>
+
+    <br><br>
+    </div>
+  </section>
+
+  <section id="message" class="background1 section-padding">
+    <div class="container">
+      <h4 id="colorChangeRed">Leave a Message</h4>
+      <hr align="left" width="400px" class="hrContact">
+
+      Use this message box for any questions, comments, concerns, typos, mistakes, or anything that you want to tell me. I am all ears :D
+
+      <br>
+      <br>
+
+      <form id="contactForm" name="contactform" method="post" action="https://ggalixcom.000webhostapp.com/form-to-email-dsa.php">
+
+      <div class="form-group">
+          <label for="usr">Name:</label>
+          <input type="text" class="form-control" name="usr">
+      </div>
+      <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" class="form-control" name="email">
+      </div>
+      <div class="form-group">
+          <label for="comment">Message:</label>
+          <textarea class="form-control" rows="5" name="comment"></textarea>
+      </div>
+      <div class="left" class="col-sm-10">
+            <button id="butSubmit" type="submit" class="btn btn-primary" name="submit">Submit</button>
+        </div>
+      </form>
+      <br>
+      <br>
+    </div>
+  </section>
+    <br>
+      <br>
+      <br>
+
+	<footer class="background2 footer-padding">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-8 col-sm-offset-2 text-small text-center">
+					<button id="buttonFooter" type="button" class="btn btn-primary btn-up-footer btn-lg round scroll-top">TOP</button>
+          <p id="foot" class="no-margin">Data Structures and Algorithms | Algorithms: LOOP INVARIANTS | Last updated: Sepotember 3, 2018</p>
+				</div><!-- /.column -->
+			</div><!-- /.row -->
+		</div><!-- /.container -->
+	</footer>
+</div>
+<div>
+	<script>
+
+        //use this to reset forms onload
+$('#contactForm')[0].reset();
+
+    (function() {
+    var pre = document.getElementsByTagName('pre'),
+        pl = pre.length;
+    for (var i = 0; i < pl; i++) {
+        pre[i].innerHTML = '<span class="line-number"></span>' + pre[i].innerHTML + '<span class="cl"></span>';
+        var num = pre[i].innerHTML.split(/\n/).length;
+        for (var j = 0; j < num; j++) {
+            var line_num = pre[i].getElementsByTagName('span')[0];
+            line_num.innerHTML += '<span>' + (j + 1) + '</span>';
+        }
+    }
+})();
+
+		  // Add slideDown animation to Bootstrap dropdown when expanding.
+  $('.dropdown').on('show.bs.dropdown', function() {
+    $(this).find('.dropdown-menu').first().stop(true, true).slideDown();
+  });
+
+  // Add slideUp animation to Bootstrap dropdown when collapsing.
+  $('.dropdown').on('hide.bs.dropdown', function() {
+    $(this).find('.dropdown-menu').first().stop(true, true).slideUp();
+  });
+
+$(document).ready(function(){
+  $('body').scrollspy({target: ".navbar", offset: 50});   
+  $("#navbar a").on('click', function(event) {
+    if (this.hash !== "") {
+      event.preventDefault();
+      var hash = this.hash;
+      $('html, body').animate({
+        scrollTop: $(hash).offset().top
+      }, 800, function(){
+        window.location.hash = hash;
+      });
+    }  // End if
+  });
+});
+
+/* ---- nav smooth scroll ---- */
+$(document).ready(function() {
+    $('.scroll-link').on('click', function(event){
+        event.preventDefault();
+        var sectionID = $(this).attr("data-id");
+        scrollToID('#' + sectionID, 750);
+    });
+    $('.scroll-top').on('click', function(event) {
+        event.preventDefault();
+        $('html, body').animate({scrollTop:0}, 1200);       
+    });
+});
+
+/* ---- navbar offset ---- */
+function scrollToID(id, speed){
+    var offSet = 69;
+    var targetOffset = $(id).offset().top - offSet;
+    $('html,body').animate({scrollTop:targetOffset}, speed);
+}
+var myVar;
+
+function onload() {
+    myVar = setTimeout(showPage, 1500);
+}
+
+function showPage() {
+  document.getElementById("loader").style.display = "none";
+  document.getElementById("myDiv").style.display = "block";
+}
+</script>
+
+	</body>
+</html>
